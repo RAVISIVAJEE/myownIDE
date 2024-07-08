@@ -9,9 +9,9 @@ from pygments.lexers import PythonLexer, JavascriptLexer, CLexer, JavaLexer
 from pygments.styles import get_style_by_name
 from pygments.token import Token
 
-file_path = ''  # Initialize file_path as an empty string
+file_path = ''
 
-# Syntax highlighting configuration
+
 LEXERS = {
     "Python": PythonLexer,
     "JavaScript": JavascriptLexer,
@@ -118,12 +118,11 @@ def highlight_code(event):
         if foreground:
             editor.tag_configure(str(token), foreground=f"#{foreground}")
 
-# Create the main window
+
 compiler = Tk()
 compiler.title("IDE")
 compiler.geometry("800x600")
 
-# Set the background colors
 bg_color = "#2E3440"
 text_bg_color = "#3B4252"
 text_color = "#D8DEE9"
@@ -134,10 +133,10 @@ button_fg_color = "#ECEFF4"
 
 compiler.config(bg=bg_color)
 
-# Create the menu bar
+
 menu_bar = Menu(compiler, bg=menu_bg_color, fg=text_color)
 
-# Create the File menu
+
 file_menu = Menu(menu_bar, tearoff=0, bg=menu_bg_color, fg=text_color)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
@@ -145,38 +144,38 @@ file_menu.add_command(label="Save As", command=save_as)
 file_menu.add_command(label="Exit", command=exit_app)
 menu_bar.add_cascade(label="File", menu=file_menu)
 
-# Create the Run menu
+
 run_bar = Menu(menu_bar, tearoff=0, bg=menu_bg_color, fg=text_color)
 run_bar.add_command(label="Run", command=run)
 menu_bar.add_cascade(label="Run", menu=run_bar)
 
-# Configure the menu bar
+
 compiler.config(menu=menu_bar)
 
-# Create a dropdown menu for language selection
+
 language = StringVar(compiler)
-language.set("Python")  # Set default language
+language.set("Python")
 language.trace('w', change_language)
 language_menu = OptionMenu(compiler, language, "Python", "JavaScript", "C", "Java")
 language_menu.config(bg=button_bg_color, fg=button_fg_color, activebackground=button_bg_color, activeforeground=button_fg_color)
 language_menu.pack(pady=5)
 
-# Create the text editor widget with syntax highlighting
+
 editor = Text(compiler, wrap=NONE, bg=text_bg_color, fg=text_color, insertbackground=text_color)
 editor.pack(expand=True, fill=BOTH)
 
-# Add a scroll bar to the editor
+
 scrollbar = Scrollbar(editor)
 scrollbar.pack(side=RIGHT, fill=Y)
 scrollbar.config(command=editor.yview)
 editor.config(yscrollcommand=scrollbar.set)
 
-# Create the output text widget
+
 output = scrolledtext.ScrolledText(compiler, height=7, wrap=NONE, bg=output_bg_color, fg=text_color, insertbackground=text_color)
 output.pack(expand=True, fill=BOTH, pady=5)
 
-# Highlight initial code
+
 editor.bind("<KeyRelease>", highlight_code)
 
-# Run the main loop
+
 compiler.mainloop()
